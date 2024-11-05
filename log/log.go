@@ -3,36 +3,41 @@ package logmgr
 import (
 	"github.com/sirupsen/logrus"
 	"os"
+	"path"
+	"runtime"
 )
 
-var Log = initlogInstance()
+var Log = logrus.New()
 
-func initlogInstance() (log *logrus.Logger) {
-	log = logrus.New()
-	log.Out = os.Stdout
+func init() {
+	Log.Out = os.Stdout
 	switch os.Getenv("LOG_LEVEL") {
 	case "info":
-		log.SetLevel(logrus.InfoLevel)
+		Log.SetLevel(logrus.InfoLevel)
 	case "warn":
-		log.SetLevel(logrus.WarnLevel)
+		Log.SetLevel(logrus.WarnLevel)
 	case "error":
-		log.SetLevel(logrus.ErrorLevel)
+		Log.SetLevel(logrus.ErrorLevel)
 	case "fatal":
-		log.SetLevel(logrus.FatalLevel)
+		Log.SetLevel(logrus.FatalLevel)
 	case "panic":
-		log.SetLevel(logrus.PanicLevel)
+		Log.SetLevel(logrus.PanicLevel)
 	case "trace":
-		log.SetLevel(logrus.TraceLevel)
+		Log.SetLevel(logrus.TraceLevel)
 	case "debug":
-		log.SetLevel(logrus.DebugLevel)
+		Log.SetLevel(logrus.DebugLevel)
 	default:
-		log.SetLevel(logrus.InfoLevel)
-		return
+		Log.SetLevel(logrus.InfoLevel)
 	}
-	log.SetFormatter(&logrus.TextFormatter{
+	Log.SetReportCaller(true)
+	Log.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp:   true,
 		TimestampFormat: "2006-01-02 15:04:05",
 		ForceColors:     true,
+		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
+			//处理文件名
+			fileName := path.Base(frame.File)
+			return frame.Function, fileName
+		},
 	})
-	return log
 }

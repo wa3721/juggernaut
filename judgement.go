@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	err := app.NewApp("judgement").Run(":8080")
+	err := app.NewApp("juggernaut").Run(":8080")
 	if err != nil {
 		logrus.Fatalf("start http server failed! error: %v", err)
 	}
