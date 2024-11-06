@@ -57,7 +57,7 @@ func sendToWechatBot(content string) {
 
 	if strings.Contains(content, "华为") {
 		// 如果 content 中包含 "华为"
-		message = fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list":["18701488607"]}}`, content)
+		message = fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list":["13241102589"]}}`, content)
 	} else {
 		// 如果 content 中不包含 "华为"
 		message = fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s"}}`, content)
@@ -77,5 +77,5 @@ func sendToWechatBot(content string) {
 		return
 	}
 
-	logmgr.Log.Info("Message sent successfully. Response:", string(respBody))
+	logmgr.Log.Info("Message send successfully. Response:", string(respBody))
 }
