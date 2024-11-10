@@ -1,4 +1,10 @@
-{
-  "王奥": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b50e0c4-8a35-4f29-b652-25e1d6142c2b",
-  "王培伦": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=36c37655-6182-472e-b6c5-d6306936dc3a"
-}
+[
+  {
+    "客服": "王奥",
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b50e0c4-8a35-4f29-b652-25e1d6142c2b"
+  },
+  {
+    "客服": "王培伦",
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=36c37655-6182-472e-b6c5-d6306936dc3a"
+  }
+]
