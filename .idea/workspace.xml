@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="970a52fb-9000-4ab4-bffd-85dc22fadaae" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/auth/base.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth/geturl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth/method.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/juggernaut.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/juggernaut.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/newreply/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/newreply/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/newreply/module.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/newreply/webhook.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/newreply/webhook.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/newreply/agent.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/newreply/agent.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/juggernaut.go" beforeDir="false" afterPath="$PROJECT_DIR$/juggernaut.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +22,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.23.2.windows-amd64" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -53,10 +43,10 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "2024-011-011",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "D:/goproject/src/juggernaut",
+    "last_opened_file_path": "C:/Users/wangaocean",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -68,7 +58,16 @@
       <recent name="D:\goproject\src\juggernaut" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go 构建.go build juggernaut.go">
+    <configuration name="go build agent.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="juggernaut" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="judgement" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/app/newreply/agent.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build juggernaut.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="juggernaut" />
       <working_directory value="$PROJECT_DIR$" />
@@ -81,14 +80,15 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build juggernaut.go" />
+        <item itemvalue="Go 构建.go build agent.go" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.17011.92" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-GO-241.17011.92" />
+        <option value="bundled-gosdk-5df93f7ad4aa-df9ad98b711f-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.23339.24" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-GO-242.23339.24" />
       </set>
     </attachedChunks>
   </component>

@@ -1,7 +1,6 @@
 package newreply
 
 import (
-	"context"
 	"fmt"
 	"github.com/tidwall/gjson"
 	"io"
@@ -78,9 +77,8 @@ func checkReplyLastPerson(ticketId string) bool {
 
 // 每5min发送一次
 func (a *agent) handleMessage(msg *message) {
-	ctx, cancel := context.WithCancel(context.Background())
-	go func(ctx context.Context) {
-		ticker := time.NewTicker(10 * time.Second)
+	go func() {
+		ticker := time.NewTicker(5 * time.Minute)
 		defer ticker.Stop()
 		for range ticker.C {
 			//检查对应id的最新回复人来决定是否发送
@@ -93,12 +91,11 @@ func (a *agent) handleMessage(msg *message) {
 					msg.TicketUrl)
 				a.sendMsgToWxWorkRobot(sender)
 			} else {
-				cancel()
 				return
 			}
 
 		}
-	}(ctx)
+	}()
 }
 
 func (a *agent) sendMsgToWxWorkRobot(msg string) {
