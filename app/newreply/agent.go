@@ -1,7 +1,6 @@
 package newreply
 
 import (
-	"context"
 	"fmt"
 	"github.com/tidwall/gjson"
 	"io"
@@ -11,8 +10,6 @@ import (
 	"strings"
 	"time"
 )
-
-var receive *message
 
 type agent struct {
 	agentName  string
@@ -50,11 +47,11 @@ func newAgent(agentName, webhookUrl string) *agent {
 }
 
 func (a *agent) run() {
-	fmt.Println(a.agentName, a.webhookUrl, "agent run")
+	logmgr.Log.Println(a.agentName, a.webhookUrl, "agent run")
 	for {
 		select {
 		case msg := <-a.msgChan:
-			a.handleMessage(msg)
+			go msg.handleMessage(a)
 		}
 	}
 }
@@ -77,28 +74,25 @@ func checkReplyLastPerson(ticketId string) bool {
 }
 
 // 每5min发送一次
-func (a *agent) handleMessage(msg *message) {
-	ctx, cancel := context.WithCancel(context.Background())
-	go func(ctx context.Context) {
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
-		for range ticker.C {
-			//检查对应id的最新回复人来决定是否发送
-			if !checkReplyLastPerson(msg.TicketID) {
-				sender := fmt.Sprintf("当前客户有新的回复，请关注并及时回复！\n标题: %s\n客户: %s\n回复时间: %s\n回复内容: %s\n工单地址: %s",
-					msg.Title,
-					msg.Customer,
-					msg.ReplyTime,
-					msg.ReplyContent,
-					msg.TicketUrl)
-				a.sendMsgToWxWorkRobot(sender)
-			} else {
-				cancel()
-				return
-			}
-
+func (m *message) handleMessage(agent *agent) {
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
+	for range ticker.C {
+		//检查对应id的最新回复人来决定是否发送
+		if !checkReplyLastPerson(m.TicketID) {
+			sender := fmt.Sprintf("当前客户有新的回复，请关注并及时回复！\n标题: %s\n客户: %s\n回复时间: %s\n回复内容: %s\n工单地址: %s",
+				m.Title,
+				m.Customer,
+				m.ReplyTime,
+				m.ReplyContent,
+				m.TicketUrl)
+			agent.sendMsgToWxWorkRobot(sender)
+		} else {
+			logmgr.Log.Infof("受理人%v,工单%v已经回复", m.flag.Acceptor, m.TicketID)
+			return
 		}
-	}(ctx)
+
+	}
 }
 
 func (a *agent) sendMsgToWxWorkRobot(msg string) {

@@ -13,6 +13,7 @@ func NewreplyHandler(c *gin.Context) {
 		logmgr.Log.Errorf("Error reading request body!")
 		return
 	}
+	var receive *message
 	err = json.Unmarshal(body, &receive)
 	if err != nil {
 		logmgr.Log.Errorf("unmarshal json failed!,%v", err)
