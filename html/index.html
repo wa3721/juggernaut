@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Page with Button</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden; /* 防止内容在动画期间溢出 */
+        }
+
+        h1 {
+            font-size: 128px; /* 放大字体大小 */
+            margin: 0;
+        }
+
+        .subtext {
+            font-size: 24px; /* 小字的字体大小 */
+            color: #aaa; /* 稍微淡化颜色 */
+            margin: 5px 0 20px; /* 调整间距 */
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px; /* 增加padding使按钮更加圆润 */
+            margin-top: 20px;
+            border: 2px solid #fff;
+            border-radius: 50px; /* 增加border-radius使按钮更加圆润 */
+            background-color: #4CAF50; /* 按钮颜色改为绿色 */
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049; /* 鼠标悬停时按钮颜色加深 */
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: #aaa;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px; /* 调整字体大小 */
+            text-align: center;
+        }
+
+        /* 倒计时样式 */
+        .countdown {
+            font-size: 700px; /* 增大字体大小 */
+            font-weight: bold; /* 加粗字体 */
+            margin-bottom: 20px;
+            opacity: 1; /* 初始时显示倒计时 */
+            animation: fadeOut 3s ease-out forwards; /* 倒计时结束后淡出 */
+        }
+
+        /* 定义淡出动画 */
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                display: none; /* 淡出后隐藏元素 */
+            }
+        }
+
+        /* 应用开门动画到内容 */
+        .content {
+            opacity: 0;
+            animation: doorOpen 1s ease-out forwards;
+            animation-delay: 3s; /* 延迟3秒开始动画，即倒计时结束后 */
+        }
+
+        /* 定义开门动画 */
+        @keyframes doorOpen {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 倒计时 -->
+<div class="countdown" id="countdown">3</div>
+<!-- 内容 -->
+<div class="content">
+    <h1 style="color: #fff;">JUGGERNAUT</h1>
+    <div class="subtext">
+        A multi-routing server that handles forwarding <br>一个处理转发的多路由服务端
+    </div>
+    <a href="/juggernaut/documentation" class="button">下载说明文档</a>
+</div>
+<footer>
+    Contributed from ROTC-dev
+    <br>Copyright@2024
+</footer>
+<script>
+    // JavaScript 倒计时
+    const countdownElement = document.getElementById('countdown');
+    let timeLeft = 3;
+
+    const countdown = setInterval(() => {
+        countdownElement.textContent = timeLeft;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            // 倒计时结束后触发开门动画
+            document.querySelector('.content').style.animation = 'doorOpen 1s ease-out forwards';
+        }
+    }, 1000);
+</script>
+</body>
+</html>

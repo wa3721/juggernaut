@@ -53,9 +53,8 @@ func (a *agent) run() {
 	for {
 		select {
 		case msg := <-a.msgChan:
-			_, ok := a.ticketRecord[msg.TicketID] // 123 hahaha 123 aaa
+			_, ok := a.ticketRecord[msg.TicketID]
 			if !ok {
-				// 123 hahaha
 				a.ticketRecord[msg.TicketID] = msg.ReplyContent
 				go msg.handleMessage(a)
 			} else {

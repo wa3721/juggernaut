@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="970a52fb-9000-4ab4-bffd-85dc22fadaae" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/readme/read.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/newreply/agent.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/newreply/agent.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +19,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go File" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -35,6 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
+    "DefaultHtmlFileTemplate": "HTML File",
     "Go 构建.go build juggernaut.go.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -45,6 +50,7 @@
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "last_opened_file_path": "D:/GolangProjects/src/judgement",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -56,7 +62,7 @@
       <recent name="D:\goproject\src\juggernaut" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build juggernaut.go">
+  <component name="RunManager" selected="Go 构建.go build read.go">
     <configuration name="go build agent.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="juggernaut" />
       <working_directory value="$PROJECT_DIR$" />
@@ -75,9 +81,19 @@
       <filePath value="$PROJECT_DIR$/juggernaut.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build read.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="juggernaut" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="judgement" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/readme/read.go" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build juggernaut.go" />
+        <item itemvalue="Go 构建.go build read.go" />
         <item itemvalue="Go 构建.go build agent.go" />
       </list>
     </recent_temporary>
