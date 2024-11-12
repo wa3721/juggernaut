@@ -12,9 +12,10 @@ import (
 )
 
 type agent struct {
-	agentName  string
-	webhookUrl string
-	msgChan    chan *message
+	agentName    string
+	webhookUrl   string
+	msgChan      chan *message
+	ticketRecord map[string]string
 }
 
 type message struct {
@@ -38,9 +39,10 @@ type flag struct {
 // newAgent 创建并返回一个新的 agent 实例
 func newAgent(agentName, webhookUrl string) *agent {
 	a := &agent{
-		agentName:  agentName,
-		webhookUrl: webhookUrl,
-		msgChan:    make(chan *message),
+		agentName:    agentName,
+		webhookUrl:   webhookUrl,
+		msgChan:      make(chan *message),
+		ticketRecord: make(map[string]string, 8),
 	}
 	go a.run()
 	return a
@@ -51,7 +53,15 @@ func (a *agent) run() {
 	for {
 		select {
 		case msg := <-a.msgChan:
-			go msg.handleMessage(a)
+			_, ok := a.ticketRecord[msg.TicketID] // 123 hahaha 123 aaa
+			if !ok {
+				// 123 hahaha
+				a.ticketRecord[msg.TicketID] = msg.ReplyContent
+				go msg.handleMessage(a)
+			} else {
+				a.ticketRecord[msg.TicketID] = msg.ReplyContent
+			}
+
 		}
 	}
 }
@@ -84,14 +94,14 @@ func (m *message) handleMessage(agent *agent) {
 				m.Title,
 				m.Customer,
 				m.ReplyTime,
-				m.ReplyContent,
+				agent.ticketRecord[m.TicketID],
 				m.TicketUrl)
 			agent.sendMsgToWxWorkRobot(sender)
 		} else {
 			logmgr.Log.Infof("受理人%v,工单%v已经回复", m.flag.Acceptor, m.TicketID)
+			delete(agent.ticketRecord, m.TicketID)
 			return
 		}
-
 	}
 }
 
