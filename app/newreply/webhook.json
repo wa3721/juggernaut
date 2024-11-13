@@ -6,5 +6,19 @@
   {
     "客服": "王培伦",
     "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=36c37655-6182-472e-b6c5-d6306936dc3a"
+  },
+  {
+    "客服": "霍佳琦",
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=de036cd3-a5f4-4aed-ad85-a2799f0c17df"
+  },
+  {
+    "客服": "罗舒文",
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=149908ed-8c1e-4b8b-a28b-ff93b17a9f9c"
+  },
+  {
+    "客服": "谭嘉威",
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=28a974f2-c387-424a-a97e-a84ed212c856"
   }
+
+
 ]
