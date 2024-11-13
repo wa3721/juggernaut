@@ -9,3 +9,7 @@ func ReadMe(c *gin.Context) {
 func Documentation(c *gin.Context) {
 	c.FileAttachment("./README.md", "JUGGERNAUT_Documentation.md")
 }
+
+func Contributors(c *gin.Context) {
+	c.File("./html/contributors.html")
+}

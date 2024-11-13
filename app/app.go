@@ -43,6 +43,7 @@ _________          _______  _______  _______  _______  _        _______         
 		//说明路由
 		backend.GET("/readme", logMiddleware(readMe), read.ReadMe)
 		backend.GET("/documentation", logMiddleware(readMe), read.Documentation)
+		backend.GET("/contributors", logMiddleware(readMe), read.Contributors)
 		udesk := backend.Group("/udesk")
 		{
 			//分配工单提醒路由

@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="970a52fb-9000-4ab4-bffd-85dc22fadaae" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/html/tennotsuyosa.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme/read.go" beforeDir="false" afterPath="$PROJECT_DIR$/readme/read.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +20,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go File" />
-        <option value="HTML File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -40,6 +42,7 @@
     "DefaultGoTemplateProperty": "Go File",
     "DefaultHtmlFileTemplate": "HTML File",
     "Go 构建.go build juggernaut.go.executor": "Run",
+    "JavaScript 调试.contributors.html.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -61,8 +64,11 @@
       <recent name="D:\GolangProjects\src\judgement\html" />
       <recent name="D:\goproject\src\juggernaut" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GolangProjects\src\judgement\html" />
+    </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build read.go">
+  <component name="RunManager" selected="Go 构建.go build juggernaut.go">
     <configuration name="go build agent.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="juggernaut" />
       <working_directory value="$PROJECT_DIR$" />
@@ -70,6 +76,15 @@
       <package value="judgement" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/app/newreply/agent.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build app.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="juggernaut" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="judgement" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/app/app.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build juggernaut.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -90,9 +105,14 @@
       <filePath value="$PROJECT_DIR$/readme/read.go" />
       <method v="2" />
     </configuration>
+    <configuration name="contributors.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/judgement/html/contributors.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build juggernaut.go" />
+        <item itemvalue="JavaScript 调试.contributors.html" />
+        <item itemvalue="Go 构建.go build app.go" />
         <item itemvalue="Go 构建.go build read.go" />
         <item itemvalue="Go 构建.go build agent.go" />
       </list>
