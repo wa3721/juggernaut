@@ -7,13 +7,15 @@ import (
 )
 
 type Config struct {
-	Parts    []Users `yaml:"parts"`
-	LogLevel string  `yaml:"logLevel,omitempty"`
+	Parts            []Users `yaml:"parts"`
+	RemindWebhookUrl string  `yaml:"remindWebhookUrl"`
+	LogLevel         string  `yaml:"logLevel,omitempty"`
 }
 
 type Users struct {
-	Name                 string `yaml:"name"`
-	ReplyRobotWebhookUrl string `yaml:"replyRobotWebhookUrl"`
+	Name            string `yaml:"name"`
+	Phone           string `yaml:"phone"`
+	ReplyWebhookUrl string `yaml:"replyWebhookUrl"`
 }
 
 func LoadConfig() {
@@ -22,5 +24,6 @@ func LoadConfig() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		logmgr.Log.Error("Error reading config file: %v", err)
+		panic(err)
 	}
 }

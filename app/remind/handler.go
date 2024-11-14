@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func RemindHandler(c *gin.Context) {
@@ -29,8 +30,8 @@ func RemindHandler(c *gin.Context) {
 	builder.WriteString(message)
 	msg := builder.String()
 	for _, v := range Parts {
-		if Order.CustomerService == v.Name {
-			sendMsgToWxWorkRobot(msg, v.Name)
+		if Order.CustomerService == v.Name && v.Phone != "" {
+			sendMsgToWxWorkRobot(msg, v.Phone)
 			return
 		}
 	}
@@ -39,7 +40,7 @@ func RemindHandler(c *gin.Context) {
 }
 
 func sendMsgToWxWorkRobot(msg, phone string) {
-	wxWorkRobotURL := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b50e0c4-8a35-4f29-b652-25e1d6142c2b"
+	wxWorkRobotURL := viper.GetString("remindWebhookUrl")
 	message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["%s"]}}`, msg, phone)
 	logmgr.Log.Infof("send to wechat message: %v", message)
 	resp, err := http.Post(wxWorkRobotURL, "application/json", strings.NewReader(message))

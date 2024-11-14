@@ -26,7 +26,8 @@ type Reply struct {
 
 var replyMutex sync.Mutex
 
-func (r *Reply) constructReplayBody(messageContent string) (*strings.Reader, error) {
+// 构造通知消息内容结构体，返回body Reader
+func (r *Reply) constructMessageRequestBody(messageContent string) (*strings.Reader, error) {
 	data := &struct {
 		Msgtype string `json:"msgtype"`
 		Text    struct {
@@ -42,11 +43,12 @@ func (r *Reply) constructReplayBody(messageContent string) (*strings.Reader, err
 	}
 	body, err := json.Marshal(data)
 	if err != nil {
-		logmgr.Log.Error("Error construct confluence release post body, json marshal error %v", err)
+		return nil, err
 	}
 	return strings.NewReader(string(body)), nil
 }
 
+// 生成消息内容
 func (r *Reply) generateMessage() string {
 	return fmt.Sprintf(
 		"当前客户有新的回复，请及时查看\ncloud_id：%v\n工单标题：%v\n客户：%v\n回复内容：\n%v\n工单链接：\n%v",
@@ -58,36 +60,43 @@ func (r *Reply) generateMessage() string {
 	)
 }
 
+// 传入客服处理人对应的webhookUrl，发送通知
 func (r *Reply) send(webhookUrl string) {
 	logmgr.Log.Info("Current send user %v", r.Assignee)
 
+	// 生成消息内容（共享资源加锁）
 	replyMutex.Lock()
 	messageContent := r.generateMessage()
 	replyMutex.Unlock()
 
-	payload, err := r.constructReplayBody(messageContent)
+	// 构造通知消息body
+	payload, err := r.constructMessageRequestBody(messageContent)
 	if err != nil {
-		logmgr.Log.Error("Error construct release body %v", err)
+		logmgr.Log.Error("Error construct message post body, json marshal error %v", err)
 		return
 	}
 
+	// 创建请求，传入webhookUrl，通知消息body
 	req, err := http.NewRequest(http.MethodPost, webhookUrl, payload)
 	if err != nil {
-		logmgr.Log.Error("Error construct confluence release post body, json marshal error %v", err)
+		logmgr.Log.Error(err)
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 
+	// 发送请求
 	resp, err := r.HttpClient.Do(req)
 	if err != nil {
-		logmgr.Log.Error("Error construct confluence release post body, json marshal error %v", err)
+		logmgr.Log.Error(err)
 		return
 	}
+
+	// 判断返回是否成功，否则打印返回
 	if resp.StatusCode != http.StatusOK {
 		logmgr.Log.Error("Error respone code not 200 %v", err)
 		respBody, err := io.ReadAll(resp.Body)
 		if err != nil {
-			logmgr.Log.Error("Error read respone body %v", err)
+			logmgr.Log.Error(err)
 			return
 		}
 		logmgr.Log.Error("Error respone body content", string(respBody))
@@ -95,15 +104,17 @@ func (r *Reply) send(webhookUrl string) {
 	}
 }
 
-func (r *Reply) assigneeNotExists(name string, parts []config.Users) (string, bool) {
+// 判断客服处理人是否在成员列表中并且返回客服处理人的webhookUrl
+func (r *Reply) assigneeExists(name string, parts []config.Users) (string, bool) {
 	for _, v := range parts {
-		if r.Assignee == v.Name {
-			return v.ReplyRobotWebhookUrl, true
+		if r.Assignee == v.Name && v.ReplyWebhookUrl != "" {
+			return v.ReplyWebhookUrl, true
 		}
 	}
 	return "", false
 }
 
+// 初始化Reply
 func newReply(r *http.Request) (*Reply, error) {
 	re := &Reply{
 		HttpClient: &http.Client{},
@@ -117,6 +128,7 @@ func newReply(r *http.Request) (*Reply, error) {
 	return re, nil
 }
 
+// 主逻辑
 func ReplyHandler(c *gin.Context) {
 	// 初始化reply
 	re, err := newReply(c.Request)
@@ -129,14 +141,15 @@ func ReplyHandler(c *gin.Context) {
 	parts := []config.Users{}
 	viper.UnmarshalKey("parts", &parts)
 
-	// 判断工单客服处理人是否存在配置中的成员中，并且返回该成员的机器人webhookUrl
-	webhookUrl, exists := re.assigneeNotExists(re.Assignee, parts)
+	// 判断客服处理人在配置成员中是否存在
+	// 并且返回客服处理人的webhookUrl
+	webhookUrl, exists := re.assigneeExists(re.Assignee, parts)
 	if !exists {
-		logmgr.Log.Error("No assignee %v", re.Assignee)
+		logmgr.Log.Error("No assignee or webhhookUrl is empty - %v", re.Assignee)
 		return
 	}
 
-	// 传递工单客服处理人对应的webhookUrl并发送
+	// 将客户回复的通知发送给对应客服处理人的webhookUrl
 	go re.send(webhookUrl)
 
 	c.Writer.Write([]byte(`{"ok":true}`))
