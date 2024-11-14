@@ -84,7 +84,7 @@ func checkReplyLastPerson(ticketId string) bool {
 
 // 每5min发送一次
 func (m *message) handleMessage(agent *agent) {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(5 * time.Minute)
 	defer ticker.Stop()
 	for range ticker.C {
 		//检查对应id的最新回复人来决定是否发送
