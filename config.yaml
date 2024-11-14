@@ -1,0 +1,6 @@
+parts:
+  - name: "吴舒汀"
+    replyRobotWebhookUrl: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=f18c4e12-60a3-4b3c-9010-c2288cd4512e"
+  - name: "杨慧"
+    replyRobotWebhookUrl: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=97e6c3ae-870f-4907-b797-3394f014927e"
+logLevel: info
