@@ -1,11 +1,5 @@
 package remind
 
-import (
-	"encoding/json"
-	logmgr "judgement/log"
-	"os"
-)
-
 type WorkOrder struct {
 	OrderID         string `json:"工单id"`
 	Customer        string `json:"客户"`
@@ -17,19 +11,6 @@ type WorkOrder struct {
 	CreateTime      string `json:"创建时间"`
 }
 
-var PhoneList = make(map[string]string, 16)
+//接受触发器请求
 
 var Order *WorkOrder
-
-func init() {
-	phonelist, err := os.ReadFile("./app/remind/phonelist.json")
-	if err != nil {
-		logmgr.Log.Fatalf("Error reading file: %v\n", err)
-		return
-	}
-	err = json.Unmarshal(phonelist, &PhoneList)
-	if err != nil {
-		logmgr.Log.Fatalf("Error unmarshaling JSON: %v\n", err)
-		return
-	}
-}

@@ -9,9 +9,11 @@ import (
 
 var Log = logrus.New()
 
-func init() {
+var LogLevel string
+
+func LoadLogConfig() {
 	Log.Out = os.Stdout
-	switch os.Getenv("LOG_LEVEL") {
+	switch LogLevel {
 	case "info":
 		Log.SetLevel(logrus.InfoLevel)
 	case "warn":

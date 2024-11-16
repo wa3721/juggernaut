@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
-	logmgr "judgement/log"
+	"judgement/config"
+	"judgement/config/log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -52,7 +53,6 @@ func sendToWechatBot(content string) {
 
 	// 这里实现发送信息到企业微信机器人的逻辑
 	// 可以使用企业微信机器人的 Webhook API 发送消息
-	webhookURL := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b50e0c4-8a35-4f29-b652-25e1d6142c2b"
 	var message string
 
 	if strings.Contains(content, "华为") {
@@ -63,7 +63,7 @@ func sendToWechatBot(content string) {
 		message = fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s"}}`, content)
 	}
 	// 发送 HTTP POST 请求到企业微信机器人的 Webhook
-	resp, err := http.Post(webhookURL, "application/json", strings.NewReader(message))
+	resp, err := http.Post(config.CaptchaWebhookUrl, "application/json", strings.NewReader(message))
 	if err != nil {
 		logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
 		return

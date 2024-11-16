@@ -3,11 +3,13 @@ package remind
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io"
-	logmgr "judgement/log"
+	"judgement/config"
+	"judgement/config/log"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 func RemindHandler(c *gin.Context) {
@@ -27,9 +29,9 @@ func RemindHandler(c *gin.Context) {
 		Order.Subject)
 	builder.WriteString(message)
 	msg := builder.String()
-	for i, v := range PhoneList {
-		if Order.CustomerService == i {
-			sendMsgToWxWorkRobot(msg, v)
+	for _, v := range config.Parts {
+		if Order.CustomerService == v.Name && v.Phone != "" {
+			sendMsgToWxWorkRobot(msg, v.Phone)
 			return
 		}
 	}
@@ -38,10 +40,9 @@ func RemindHandler(c *gin.Context) {
 }
 
 func sendMsgToWxWorkRobot(msg, phone string) {
-	wxWorkRobotURL := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b50e0c4-8a35-4f29-b652-25e1d6142c2b"
 	message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["%s"]}}`, msg, phone)
 	logmgr.Log.Infof("send to wechat message: %v", message)
-	resp, err := http.Post(wxWorkRobotURL, "application/json", strings.NewReader(message))
+	resp, err := http.Post(config.RemindWebhookUrl, "application/json", strings.NewReader(message))
 	if err != nil {
 		logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
 		return
