@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/tidwall/gjson"
 	"io"
+	udeskauth "judgement/app/reply/auth"
 	logmgr "judgement/config/log"
 	"net/http"
 	"strings"
@@ -63,6 +65,24 @@ func (r *Reply) generateMessage(LatestComment string) string {
 	)
 }
 
+// 动态判断客服是否回复了工单
+func checkReplyLastPerson(udeskId string) bool {
+	url := udeskauth.Geturlstring(fmt.Sprintf("https://servicecenter-alauda.udesk.cn/open_api_v1/tickets/%s/replies?", udeskId))
+	resp, err := http.Get(url)
+	if err != nil {
+		logmgr.Log.Errorf("get ticket lastreply person data error!: %v", err)
+		return false
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	jsonData := string(body)
+	userType := gjson.Get(jsonData, "replies.#.author.user_type").Array()[0]
+	if userType.String() == "agent" {
+		return true
+	}
+	return false
+}
+
 func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
@@ -70,30 +90,38 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 		select {
 		//主动静默的情况
 		case <-ctx.Done():
-			logmgr.Log.Infof("cloudid: %v sendMsgToWxWorkRobot: context canceled", r.CloudId)
-			//取消之前删掉对应的工单id的回复对象，防止数据无限增加
+			logmgr.Log.Infof("cloudid: %v sendMsgToWxWorkRobot: %v", r.CloudId, ctx.Err().Error())
+			//取消之前删掉对应的工单id的回复对象，防止数据无限增加+
 			delete(a.ticketMgr, r.CloudId)
 			return
 		default:
 			//这里需要判断被动取消的情况，即：有客服回复了工单
-			//正常循环发送数据
-			//动态读取最新回复,近发送最新的回复
-			message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["@all"]}}`, r.generateMessage(a.ticketMgr[r.CloudId].LatestComment))
-			logmgr.Log.Infof("send to wechat message: %v", message)
-			resp, err := http.Post(a.webhookUrl, "application/json", strings.NewReader(message))
-			if err != nil {
-				logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
-				return
-			}
-			defer resp.Body.Close()
+			if !checkReplyLastPerson(r.UdeskId) {
+				//正常循环发送数据
+				//动态读取最新回复,近发送最新的回复
+				message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["@all"]}}`, r.generateMessage(a.ticketMgr[r.CloudId].LatestComment))
+				logmgr.Log.Infof("send to wechat message: %v", message)
+				resp, err := http.Post(a.webhookUrl, "application/json", strings.NewReader(message))
+				if err != nil {
+					logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
+					return
+				}
+				defer resp.Body.Close()
 
-			// 读取响应
-			respBody, err := io.ReadAll(resp.Body)
-			if err != nil {
-				logmgr.Log.Errorf("Error reading response body: %v", err)
+				// 读取响应
+				respBody, err := io.ReadAll(resp.Body)
+				if err != nil {
+					logmgr.Log.Errorf("Error reading response body: %v", err)
+					return
+				}
+				logmgr.Log.Info("Message send successfully. Response:", string(respBody))
+			} else {
+				//取消之前删掉对应的工单id的回复对象，防止数据无限增加
+				logmgr.Log.Infof("工单%v已回复，受理人%v", r.CloudId, r.Assignee)
+				delete(a.ticketMgr, r.CloudId)
 				return
 			}
-			logmgr.Log.Info("Message send successfully. Response:", string(respBody))
+
 		}
 
 	}

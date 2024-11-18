@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鸣谢页面</title>
+    <style>
+        /* 隐藏audio元素 */
+        #audioPlayer {
+            display: none;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%; /* 确保父容器宽度为100% */
+        }
+
+        .credits {
+            font-size: 24px;
+            padding: 20px;
+            max-width: 90%; /* 增加最大宽度 */
+            width: 100%; /* 设置宽度为100% */
+            overflow: hidden; /* 隐藏滚动区域以外的内容 */
+            border: 16px solid #fff; /* 白色边框 */
+            border-radius: 10px; /* 边框圆角 */
+            height: 90%;
+            position: relative; /* 为绝对定位做准备 */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 垂直和水平居中 */
+        }
+
+        .credits-container {
+            width: 100%; /* 确保容器宽度与.credits相同 */
+            animation: scrollCredits 15s linear infinite; /* 滚动动画 */
+        }
+
+        .credits-title {
+            font-size: 180px; /* 大标题字体大小 */
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center; /* 标题居中 */
+        }
+
+        .credits-list {
+            font-size: 120px; /* 贡献者字体大小 */
+            margin: 5px 0;
+            text-align: center; /* 列表项居中 */
+        }
+
+        /* 定义滚动动画 */
+        @keyframes scrollCredits {
+            0% {
+                transform: translateY(100%); /* 从底部开始 */
+            }
+            100% {
+                transform: translateY(-100%); /* 滚动到顶部 */
+            }
+        }
+        .button {
+        }
+
+
+        /* 添加播放按钮样式 */
+        #playButton {
+            display: inline-block;
+            padding: 15px 30px; /* 增加padding使按钮更加圆润 */
+            margin-top: 20px;
+            border: 2px solid #fff;
+            border-radius: 50px; /* 增加border-radius使按钮更加圆润 */
+            background-color: #4CAF50; /* 按钮颜色改为绿色 */
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            top: 85%;
+        }
+
+        #playButton:hover {
+            background-color: #45a049; /* 鼠标悬停时背景颜色变深 */
+        }
+
+        /* 添加返回按钮样式 */
+        #backButton {
+            display: inline-block;
+            padding: 15px 30px; /* 增加padding使按钮更加圆润 */
+            margin-top: 20px;
+            border: 2px solid #fff;
+            border-radius: 50px; /* 增加border-radius使按钮更加圆润 */
+            background-color: grey; /* 按钮颜色改为绿色 */
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            top: 85%;
+        }
+
+        #backButton:hover {
+            background-color: #45a049; /* 鼠标悬停时背景颜色变深 */
+        }
+    </style>
+</head>
+<body>
+<!-- 音频元素，不显示播放界面 -->
+<audio id="audioPlayer" preload="auto">
+    <source src="https://wsaudiobssdlbig.kugou.com/202411131344/9ffec937323832e29a46b93ba22888d3/bss/extname/wsaudio/5ead515a5c7838d15eeb8846f82e7252.mp3"
+            type="audio/mpeg">
+</audio>
+<div class="credits">
+    <div class="credits-container">
+        <div class="credits-title">特别鸣谢<br>Special thanks</div>
+        <div class="credits-title">贡献者<br>Contributors</div>
+        <div class="credits-list">王奥<br><a>aowang@alauda.io</a></div>
+        <div class="credits-list">王培伦<br><a>plwang@alauda.io</a></div>
+        <div class="credits-list">吴舒汀<br><a>stwu@alauda.io</a></div>
+        <div class="credits-list"><a>.....<br><br></a></div>
+        <div class="credits-title">Thank you<br>本当にありがとう</div>
+        <!-- 可以在这里添加更多的贡献者 -->
+    </div>
+</div>
+<!-- 添加播放按钮 -->
+<div class="button">
+    <div id="playButton">播放感谢音乐</div>
+    <div id="backButton">返回</div>
+</div>
+
+<script>
+    // 获取audio元素
+    var audio = document.getElementById('audioPlayer');
+
+    // 获取播放按钮
+    var playButton = document.getElementById('playButton');
+
+    // 为播放按钮添加点击事件监听器
+    playButton.addEventListener('click', function () {
+        // 播放音频
+        audio.play();
+    });
+    // 获取返回按钮
+    var backButton = document.getElementById('backButton');
+
+    // 为返回按钮添加点击事件监听器
+    backButton.addEventListener('click', function () {
+        window.history.back(); // 使用浏览器的历史记录返回上一个页面
+    });
+</script>
+
+</body>
+</html>

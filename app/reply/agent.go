@@ -1,9 +1,14 @@
 package reply
 
 import (
+	"bytes"
 	"context"
+	"fmt"
+	"io"
+	udeskauth "judgement/app/reply/auth"
 	"judgement/config"
 	logmgr "judgement/config/log"
+	"net/http"
 )
 
 //定义代理管理者，存放客服的名字和他的代理
@@ -70,7 +75,10 @@ func (a *assigneeAgent) run() {
 			//判断回复对象是否存在在每个对象的工单管理者map中
 			_, ok := a.ticketMgr[reply.CloudId]
 			//不存在
+			//第一次发送
+			//当我手动静默此工单，但是客户仍然发送之后，当做第一次接收来处理
 			if !ok {
+				modifyUdesksilenceState(reply.UdeskId)
 				//定义一个context注入发送企业微信的goroutine中，用于后续取消
 				ctx, cancel := context.WithCancel(context.Background())
 				//存入对应的取消函数管理者
@@ -80,6 +88,7 @@ func (a *assigneeAgent) run() {
 				//发送企业微信
 				go a.sendMsgToWxWorkRobot(ctx, reply)
 			} else {
+				//不是第一次发送
 				//已经存在在回复管理者中，说明已经启动了发送goroutine，只需要在发送goroutine中动态更新对应的回复内容
 				//后续根据工单id对应读取新的内容
 				a.ticketMgr[reply.CloudId] = reply
@@ -97,4 +106,37 @@ func (a *assigneeAgent) run() {
 			}
 		}
 	}
+}
+
+func modifyUdesksilenceState(udeskId string) {
+	url := udeskauth.Geturlstring(fmt.Sprintf("https://servicecenter-alauda.udesk.cn/open_api_v1/tickets/%s?", udeskId))
+	data := `{"ticket": {"custom_fields": {"SelectField_1666114": ""}}}`
+	requestBody := bytes.NewBuffer([]byte(data))
+	// 创建PUT请求
+	req, err := http.NewRequest("PUT", url, requestBody)
+	if err != nil {
+		logmgr.Log.Error("create req failed! ", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		logmgr.Log.Error("create req failed! ", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		logmgr.Log.Error("read resp failed! ", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		logmgr.Log.Errorf("modify udesk silence state failed! response status: %v", resp.Status)
+		return
+	}
+	// 打印响应状态和响应体
+	logmgr.Log.Infof("modify udesk silence state success! response status: %v", string(body))
+
 }

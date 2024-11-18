@@ -28,6 +28,7 @@ type Reply struct {
 	Subject       string `json:"subject"`
 	WebUrl        string `json:"webUrl"`
 	LatestComment string `json:"latest_comment"`
+	UdeskId       string `json:"udeskId"`
 	ctx           context.Context
 }
 

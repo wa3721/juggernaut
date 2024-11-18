@@ -8,6 +8,7 @@ import (
 	"judgement/app/reply"
 	"judgement/config"
 	"judgement/config/log"
+	read "judgement/readme"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,7 @@ const (
 	allocationreminders = "工单分配提醒"
 	newticketreminder   = "新工单提醒"
 	replyreminder       = "新回复提醒"
+	readMe              = "说明书"
 
 	authUser     = "admin"
 	authPassword = "123456"
@@ -49,6 +51,10 @@ _________          _______  _______  _______  _______  _        _______         
 	backend := r.Group("/" + app)
 	{ //验证码转发路由
 		backend.POST("/captcha", logMiddleware(verifycode), captcha.CaptchaHandler)
+		//说明路由
+		backend.GET("/readme", logMiddleware(readMe), read.ReadMe)
+		backend.GET("/documentation", logMiddleware(readMe), read.Documentation)
+		backend.GET("/contributors", logMiddleware(readMe), read.Contributors)
 		udesk := backend.Group("/udesk")
 		{
 			//分配工单提醒路由
