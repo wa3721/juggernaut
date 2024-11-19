@@ -97,24 +97,33 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 		default:
 			//这里需要判断被动取消的情况，即：有客服回复了工单
 			if !checkReplyLastPerson(r.UdeskId) {
-				//正常循环发送数据
-				//动态读取最新回复,近发送最新的回复
-				message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["@all"]}}`, r.generateMessage(a.ticketMgr[r.CloudId].LatestComment))
-				logmgr.Log.Infof("send to wechat message: %v", message)
-				resp, err := http.Post(a.webhookUrl, "application/json", strings.NewReader(message))
-				if err != nil {
-					logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
-					return
-				}
-				defer resp.Body.Close()
+				//这里需要动态判断交接的情况，切换管道
+				if ok, assginee := r.checkAsignee(r.UdeskId); !ok {
+					r.Assignee = assginee                      //回复对象中的受理人修改成新的
+					delete(a.ticketMgr, r.CloudId)             //删除当前agent的工单的回复对象
+					agmgr.assignees[r.Assignee].replyChan <- r //发送回复对象到新受理人的agnet
+					return                                     //取消当前的发送
+				} else {
+					//正常循环发送数据
+					//动态读取最新回复,近发送最新的回复
+					message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["@all"]}}`, r.generateMessage(a.ticketMgr[r.CloudId].LatestComment))
+					logmgr.Log.Infof("send to wechat message: %v", message)
+					resp, err := http.Post(a.webhookUrl, "application/json", strings.NewReader(message))
+					if err != nil {
+						logmgr.Log.Errorf("Error sending message to Wechat Bot: %v", err)
+						return
+					}
+					defer resp.Body.Close()
 
-				// 读取响应
-				respBody, err := io.ReadAll(resp.Body)
-				if err != nil {
-					logmgr.Log.Errorf("Error reading response body: %v", err)
-					return
+					// 读取响应
+					respBody, err := io.ReadAll(resp.Body)
+					if err != nil {
+						logmgr.Log.Errorf("Error reading response body: %v", err)
+						return
+					}
+					logmgr.Log.Info("Message send successfully. Response:", string(respBody))
 				}
-				logmgr.Log.Info("Message send successfully. Response:", string(respBody))
+
 			} else {
 				//取消之前删掉对应的工单id的回复对象，防止数据无限增加
 				logmgr.Log.Infof("工单%v已回复，受理人%v", r.CloudId, r.Assignee)
@@ -126,4 +135,24 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 
 	}
 
+}
+
+// 受理人发生改变，返回true 和当前受理人
+func (r *Reply) checkAsignee(udeskId string) (bool, string) {
+	url := udeskauth.Geturlstring(fmt.Sprintf("https://servicecenter-alauda.udesk.cn/open_api_v1/tickets/detail?id=%v&", udeskId))
+	resp, err := http.Get(url)
+	if err != nil {
+		logmgr.Log.Error("get ticket assignee  data error!: ", err)
+		return false, ""
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	jsonData := string(body)
+	assignee := gjson.Get(jsonData, "ticket.assignee_name").String()
+	if r.Assignee != assignee {
+		logmgr.Log.Infof("check asignee has been changed! %v--->%v", r.Assignee, assignee)
+		return true, assignee
+	} else {
+		return false, ""
+	}
 }
