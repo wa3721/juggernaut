@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43a4deb1-aeea-4561-8d82-eceaa25c4116" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/reply/auth/base.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/reply/auth/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/reply/auth/geturl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/reply/auth/method.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/html/contributors.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/readme/readme.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reply/agent.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/reply/agent.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reply/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/reply/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reply/message.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/reply/message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,25 +33,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "Go 构建.go build judgement.executor": "Run",
-    "Go 构建.go build juggernaut.go.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "master",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "D:/GolangProjects/src/test",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go 构建.go build judgement.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.go build juggernaut.go.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GolangProjects/src/test&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\GolangProjects\src\juggernaut\app\reply" />
@@ -75,7 +62,7 @@
       <recent name="D:\goproject\src\juggernaut\config" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build judgement">
+  <component name="RunManager" selected="Go 构建.go build juggernaut.go">
     <configuration name="go build judgement" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="juggernaut" />
       <working_directory value="$PROJECT_DIR$" />
@@ -105,8 +92,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go 构建.go build judgement" />
         <item itemvalue="Go 构建.go build juggernaut.go" />
+        <item itemvalue="Go 构建.go build judgement" />
         <item itemvalue="Go 构建.go build reply.go" />
       </list>
     </recent_temporary>
