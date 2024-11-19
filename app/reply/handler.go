@@ -99,11 +99,6 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 			if !checkReplyLastPerson(r.UdeskId) {
 				//这里需要动态判断交接的情况，切换管道
 				if ok, assginee := r.checkAsignee(r.UdeskId); !ok {
-					r.Assignee = assginee                      //回复对象中的受理人修改成新的
-					delete(a.ticketMgr, r.CloudId)             //删除当前agent的工单的回复对象
-					agmgr.assignees[r.Assignee].replyChan <- r //发送回复对象到新受理人的agnet
-					return                                     //取消当前的发送
-				} else {
 					//正常循环发送数据
 					//动态读取最新回复,近发送最新的回复
 					message := fmt.Sprintf(`{"msgtype": "text", "text": {"content": "%s","mentioned_mobile_list": ["@all"]}}`, r.generateMessage(a.ticketMgr[r.CloudId].LatestComment))
@@ -122,6 +117,11 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 						return
 					}
 					logmgr.Log.Info("Message send successfully. Response:", string(respBody))
+				} else {
+					r.Assignee = assginee                      //回复对象中的受理人修改成新的
+					delete(a.ticketMgr, r.CloudId)             //删除当前agent的工单的回复对象
+					agmgr.assignees[r.Assignee].replyChan <- r //发送回复对象到新受理人的agnet
+					return                                     //取消当前的发送
 				}
 
 			} else {

@@ -7,7 +7,6 @@
     <list default="true" id="43a4deb1-aeea-4561-8d82-eceaa25c4116" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/reply/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/reply/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reply/message.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/reply/message.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,15 @@
     </key>
   </component>
   <component name="RunManager" selected="Go 构建.go build juggernaut.go">
+    <configuration name="go build handler.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="juggernaut" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="judgement" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/app/reply/handler.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build judgement" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="juggernaut" />
       <working_directory value="$PROJECT_DIR$" />
@@ -94,6 +102,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build juggernaut.go" />
+        <item itemvalue="Go 构建.go build handler.go" />
         <item itemvalue="Go 构建.go build judgement" />
         <item itemvalue="Go 构建.go build reply.go" />
       </list>
