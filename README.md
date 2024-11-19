@@ -7,25 +7,24 @@
 一个处理转发的多路由服务端
 
 
-## Installation
-
-Install my-project with npm
+## 下载
 
 ```bash
-  npm install my-project
-  cd my-project
+  git clone https://github.com/wa3721/juggernaut.git
+  cd juggernaut
+  go build -o juggernaut
 ```
 
-## Deployment
+## 部署
 
-To deploy this project run
+使用docker部署
 
 ```bash
   npm run deploy
 ```
 
 
-## Tech Stack
+## 技术栈
 
 **Client:** UDESK触发器，手机短信转发器
 
@@ -139,7 +138,7 @@ from=1069119987553739999&content=1069119987553739999%0A%E3%80%90%E6%B7%B1%E5%9C%
 
 #### 新客户回复提醒路由（循环提醒）
 ```http
-  POST /juggernaut/udesk/newreply
+  POST /juggernaut/udesk/reply
 ```
 
 | Parameter | Type     | Description                       |
@@ -147,16 +146,25 @@ from=1069119987553739999&content=1069119987553739999%0A%E3%80%90%E6%B7%B1%E5%9C%
 | `null`      | `null` | `null` |
 
 ### 请求体示例
-
+### 接受两种格式json 分别处理回复提醒和取消消息
+#### 回复提醒
 ```json
 {
-"标题":"{{ticket.subject}}",
-"客户":"{{ticket.user}}",
-"回复时间":"{{ticket.replied_at}}",
-"回复内容":"{{ticket.latest_customer_comment}}",
-"工单地址":"{{ticket.web_url}}",
-"工单id":"{{ticket.id}}",
-"工单受理人":"{{ticket.assignee}}"
+  "cloudId":"{{ticket.TextField_219254}}",
+  "subject":"{{ticket.subject}}",
+  "assignee":"{{ticket.assignee}}",
+  "ticketUser":"{{ticket.user}}",
+  "webUrl":"{{ticket.web_url}}",
+  "latest_comment":"{{ticket.latest_customer_comment}}",
+  "udeskId":"{{ticket.id}}"
+}
+```
+#### 取消提醒
+```json
+{
+  "cloudId":"{{ticket.TextField_219254}}",
+  "assignee":"{{ticket.assignee}}",
+  "silence":"{{ticket.SelectField_1666114}}"
 }
 ```
 
