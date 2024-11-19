@@ -118,8 +118,9 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 					}
 					logmgr.Log.Info("Message send successfully. Response:", string(respBody))
 				} else {
-					r.Assignee = assginee                      //回复对象中的受理人修改成新的
-					delete(a.ticketMgr, r.CloudId)             //删除当前agent的工单的回复对象
+					r.Assignee = assginee          //回复对象中的受理人修改成新的
+					delete(a.ticketMgr, r.CloudId) //删除当前agent的工单的回复对象
+					delete(a.cancelMgr, r.CloudId)
 					agmgr.assignees[r.Assignee].replyChan <- r //发送回复对象到新受理人的agnet
 					return                                     //取消当前的发送
 				}
@@ -128,6 +129,7 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 				//取消之前删掉对应的工单id的回复对象，防止数据无限增加
 				logmgr.Log.Infof("工单%v已回复，受理人%v", r.CloudId, r.Assignee)
 				delete(a.ticketMgr, r.CloudId)
+				delete(a.cancelMgr, r.CloudId)
 				return
 			}
 
