@@ -7,12 +7,13 @@
 一个处理转发的多路由服务端
 
 
-## 下载
+## 构建
 
 ```bash
   git clone https://github.com/wa3721/juggernaut.git
   cd juggernaut
-  go build -o juggernaut
+  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o juggernaut 
+  docker build -t juggernaut:{$tag} .
 ```
 
 ## 部署
@@ -20,7 +21,8 @@
 使用docker部署
 
 ```bash
-  npm run deploy
+cp /juggernaut/config.yaml {$hostpath}
+docker run --name juggernaut -v {$hostpath}:/JUGGERNAUT/config/ --restart=always juggernaut:{$tag}
 ```
 
 
@@ -170,13 +172,16 @@ from=1069119987553739999&content=1069119987553739999%0A%E3%80%90%E6%B7%B1%E5%9C%
 
 ## FAQ
 
-#### Question 1
+#### reply:我重新点击取消发送，将他置成空，为什么不能重新发送
 
-Answer 1
+目前reply处的取消是一个一次性的动作，直接取消了对应的发送进程，在客户有新的回复之前，不能重新发送。
 
-#### Question 2
+#### reply:发送进程有几种退出的方式？
 
-Answer 2
+发送进程有三种退出的方式
+1.udesk页面点击取消发送
+2.正常回复客户
+3.工单交接，会先取消当前客服的发送进程，然后重新启动新进程到新客服
 
 
 ## 贡献者

@@ -40,7 +40,7 @@ _________          _______  _______  _______  _______  _        _______         
 (____/   (_______)(_______)(_______)(_______/|/   \__/|/    )_)|/     \|(_______)   )_(
 	`)
 	// 加载配置
-	config.NewConfig("./config.yaml").LoadConfig()
+	config.NewConfig("./config/config.yaml").LoadConfig()
 	logmgr.LoadLogConfig()
 	//加载reply代理
 	//每个客服有一个专门用于接受消息的代理，这个代理的作用是将接受到的消息发送到根据受理客服人的名字将消息发送到对应人的通道中
