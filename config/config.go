@@ -18,13 +18,17 @@ var (
 	// RemindWebhookUrl 发送提醒url
 
 	RemindWebhookUrl string
+
+	// newTicketWebhookUrl 新工单提醒url
+
+	NewTicketWebhookUrl string
 )
 
 type Config struct {
 	LogLevel            string `yaml:"logLevel,omitempty"`
 	CaptchaWebhookUrl   string `yaml:"captchaWebhookUrl"`
 	RemindWebhookUrl    string `yaml:"remindWebhookUrl"`
-	newTicketWebhookUrl string `yaml:"newTicketWebhookUrl"`
+	NewTicketWebhookUrl string `yaml:"newTicketWebhookUrl"`
 	Parts               []Part `yaml:"parts"`
 }
 
@@ -56,4 +60,5 @@ func (a *Config) LoadConfig() {
 	CaptchaWebhookUrl = a.CaptchaWebhookUrl
 	Parts = a.Parts
 	RemindWebhookUrl = a.RemindWebhookUrl
+	NewTicketWebhookUrl = a.NewTicketWebhookUrl
 }

@@ -51,8 +51,7 @@ func NewTicketHandler(c *gin.Context) {
 		newTic.TicketUrl)
 	builder.WriteString(message)
 	logmgr.Log.Info(message)
-	wxWorkRobotURL := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=36c37655-6182-472e-b6c5-d6306936dc3a" // 替换为实际机器人地址
-	sendTowechatBot(message, wxWorkRobotURL)
+	sendTowechatBot(message, config.NewTicketWebhookUrl)
 }
 
 func sendTowechatBot(msg, wxWorkRobotURL string) error {
