@@ -84,7 +84,7 @@ func checkReplyLastPerson(udeskId string) bool {
 }
 
 func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(5 * time.Minute)
 	defer ticker.Stop()
 	for range ticker.C {
 		select {
