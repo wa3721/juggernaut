@@ -95,6 +95,12 @@ func (a *assigneeAgent) sendMsgToWxWorkRobot(ctx context.Context, r *Reply) {
 			delete(a.ticketMgr, r.CloudId)
 			return
 		default:
+			//判断工单关闭，不再发送消息
+			if checkTicketClose(r.UdeskId) {
+				delete(a.ticketMgr, r.CloudId)
+				delete(a.cancelMgr, r.CloudId)
+				return
+			}
 			//这里需要判断被动取消的情况，即：有客服回复了工单
 			if !checkReplyLastPerson(r.UdeskId) {
 				//这里需要动态判断交接的情况，切换管道
@@ -157,4 +163,25 @@ func (r *Reply) checkAsignee(udeskId string) (bool, string) {
 	} else {
 		return false, ""
 	}
+}
+
+// 工单是否关闭 20241212
+
+func checkTicketClose(udeskId string) bool {
+	url := udeskauth.Geturlstring(fmt.Sprintf("https://servicecenter-alauda.udesk.cn/open_api_v1/tickets/detail?id=%v&", udeskId))
+	resp, err := http.Get(url)
+	if err != nil {
+		logmgr.Log.Error("get ticket closed  data error!: ", err)
+		return false
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	jsonData := string(body)
+	status := gjson.Get(jsonData, "ticket.status").String()
+	if status == "已关闭" {
+		logmgr.Log.Infof("id:%s,ticket has been closed", udeskId)
+		return true
+	}
+	return false
+
 }
